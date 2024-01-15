@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Display</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        h1{
+            color: white;
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 20px;
+            text-shadow: 2px 5px #2e2d2d;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        .mens{
+            background-color: rgb(255, 0, 149);
+            height: 40px;
+            width: 80px;
+            border-radius: 8px;
+            border-width: 0px;
+            color: #ffffff;
+            cursor: pointer;
+            border: 0px solid;
+            padding: 8px;
+            box-shadow: 5px 5px #323232;
+        }
+        .mens:hover{
+            background-color: transparent;
+            color: white;
+            border-width: 1px;
+            font-family: bree serif;
+            border-color: white;
+            box-shadow: none;
+        }
+        .womens{
+            background-color: rgb(255, 0, 149);
+            height: 40px;
+            width: 80px;
+            border-radius: 8px;
+            border-width: 0px;
+            color: #ffffff;
+            cursor: pointer;
+            border: 0px solid;
+            padding: 8px;
+            box-shadow: 5px 5px #323232;
+        }
+        .womens:hover{
+            background-color: transparent;
+            color: white;
+            border-width: 1px;
+            font-family: bree serif;
+            border-color: #ffffff;
+            box-shadow: none;
+        }
+        .kids{
+            background-color: rgb(255, 0, 149);
+            height: 40px;
+            width: 80px;
+            border-radius: 8px;
+            border-width: 0px;
+            color: #ffffff;
+            cursor: pointer;
+            border: 0px solid;
+            padding: 8px;
+            box-shadow: 5px 5px #323232;
+        }
+        .kids:hover{
+            background-color: transparent;
+            color: white;
+            border-width: 1px;
+            font-family: bree serif;
+            border-color: #ffffff;
+            box-shadow: none;
+        }
+        #categories{
+            
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            padding-top: 40px;
+        }
+        .main_background{
+            background-image: url(./arrangement-black-friday-shopping-carts-with-copy-space.jpg);
+            height: 100vh;
+            width: 100%;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="main_background">
+    <h1>Select Your Choices</h1>
+<div id="categories">
+    <button oncilck="loadProducts('Mans')" class="mens">Men's</button>
+    <button onclick="loadProducts('Womens')" class="womens">Women's</button>
+    <button onclick="loadProducts('kids')" class="kids">Kid's</button>
+   
+</div>
+
+<div id="product-cards"></div>
+</div>
+<script>
+    async function loadProducts(category) {
+        
+        const apiURL = `https://cdn.shopify.com/s/files/1/0564/3685/0790/files/multiProduct.json`;
+
+        try {
+            const response = await fetch(apiURL);
+            const products = await response.json();
+
+           
+            displayProductCards(products);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    }
+
+    function displayProductCards(products) {
+        const productCardsContainer = document.getElementById('product-cards');
+        productCardsContainer.innerHTML = '';
+
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+
+            
+            productCard.innerHTML = `
+                <img src="${product.image}" alt="${product.title}" style="max-width: 100%;">
+                <h3>${product.title}</h3>
+                <p>Vendor: ${product.vendor}</p>
+                <p>Price: $${product.price}</p>
+                <p>Compare at Price: $${product.compareAtPrice}</p>
+                <p>Discount: ${product.discount}% off</p>
+                <button onclick="addToCart('${product.title}')">Add to Cart</button>
+            `;
+
+            productCardsContainer.appendChild(productCard);
+        });
+    }
+
+    function addToCart(productTitle) {
+        // Implement your add to cart functionality here
+        console.log(`Product "${productTitle}" added to cart`);
+    }
+</script>
+
+</body>
+</html>
